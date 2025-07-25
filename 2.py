@@ -115,6 +115,13 @@ def main_menu():
     tk.Button(root, text="Login", command=show_login).pack(pady=10)
     tk.Button(root, text="Exit", command=root.quit).pack(pady=10)
 
+def register():
+    clear_screen()
+    tk.Label(root, text="Register", font=('Helvetica', 16)).pack(pady=10)
+    tk.Label(root, text="User Name ").pack()
+    acc_entry = tk.Entry(root, width=40)
+    acc_entry.pack(pady=10)
+
 def show_login():
     clear_screen()
     tk.Label(root, text="Login", font=('Helvetica', 16)).pack(pady=10)
