@@ -122,6 +122,14 @@ def register():
     acc_entry = tk.Entry(root, width=40)
     acc_entry.pack(pady=10)
 
+    tk.Label(root, text="PIN ").pack()
+    pin_entry = tk.Entry(root, width=40)
+    pin_entry.pack(pady=10)
+
+    tk.Label(root, text="Confirm your PIN").pack()
+    pin_confirm = tk.Entry(root, width=40, show="*")
+    pin_confirm.pack(pady=10)
+
 def show_login():
     clear_screen()
     tk.Label(root, text="Login", font=('Helvetica', 16)).pack(pady=10)
