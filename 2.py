@@ -32,6 +32,14 @@ class BankAccount:
             'transactions': self.trans
         }
 
+    def createAccount(self):
+        self.account_number = BankAccount.account_number_counter
+        self.account_holder = input('Enter your names: ')
+        self.pin = int(input('Enter your pin: '))
+        pin = int(input('Confirm your pin: '))
+        if self.pin == pin:
+            return f'You have successfully created account.'
+
     @staticmethod
     def from_dict(data):
         return BankAccount(
