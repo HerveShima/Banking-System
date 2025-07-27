@@ -32,15 +32,6 @@ class BankAccount:
             'transactions': self.trans
         }
 
-    def createAccount(self):
-        self.account_number = BankAccount.account_number_counter
-        self.account_holder = input('Enter your names: ')
-        self.pin = int(input('Enter your pin: '))
-        pin = int(input('Confirm your pin: '))
-        if self.pin == pin:
-            return f'You have successfully created account.'
-        print('Your is not correct!')
-
     @staticmethod
     def from_dict(data):
         return BankAccount(
@@ -50,6 +41,15 @@ class BankAccount:
             acc_number=data['account_number'],
             transactions=data.get('transactions', [])
         )
+
+    def createAccount(self):
+        self.account_number = BankAccount.account_number_counter
+        self.account_holder = input('Enter your names: ')
+        self.pin = int(input('Enter your pin: '))
+        pin = int(input('Confirm your pin: '))
+        if self.pin == pin:
+            return f'You have successfully created account.'
+
 
     def deposit(self, amount):
         if amount < 0:
@@ -113,7 +113,9 @@ def main_menu():
     clear_screen()
     tk.Label(root, text="Banking System", font=('Helvetica', 16)).pack(pady=20)
     tk.Button(root, text="Login", command=show_login).pack(pady=10)
+    tk.Button(root, text="Register", command=register).pack(pady=10)
     tk.Button(root, text="Exit", command=root.quit).pack(pady=10)
+    
 
 def register():
     clear_screen()
@@ -123,12 +125,39 @@ def register():
     acc_entry.pack(pady=10)
 
     tk.Label(root, text="PIN ").pack()
-    pin_entry = tk.Entry(root, width=40)
+    pin_entry = tk.Entry(root, width=40, show="*")
     pin_entry.pack(pady=10)
 
     tk.Label(root, text="Confirm your PIN").pack()
     pin_confirm = tk.Entry(root, width=40, show="*")
     pin_confirm.pack(pady=10)
+
+    def submit_registration():
+        name = acc_entry.get().strip()
+        pin = pin_entry.get().strip()
+        confirm_pin = pin_confirm.get().strip()
+
+        if not name or not pin or not confirm_pin:
+            messagebox.showerror("Error", "All fields are required.")
+            return
+
+        if not pin.isdigit() or len(pin) < 4:
+            messagebox.showerror("Error", "PIN must be at least 4 digits.")
+            return
+
+        if pin != confirm_pin:
+            messagebox.showerror("Error", "PINs do not match.")
+            return
+
+        new_account = BankAccount(name=name, pin=pin)
+        accounts[new_account.account_number] = new_account
+        save_accounts()
+        messagebox.showinfo("Success", f"Account created!\nYour account number is: {new_account.account_number}")
+        show_login()
+
+    tk.Button(root, text="Register", command=submit_registration).pack(pady=10)
+    tk.Button(root, text="Back", command=main_menu).pack(pady=5)
+
 
 def show_login():
     clear_screen()
